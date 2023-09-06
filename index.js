@@ -30,7 +30,7 @@ async function run() {
     const addContactCollection = client.db("Contact-app").collection("contacts");
 
 
-    // add task
+    // add contact
 		app.post("/contacts", async (req, res) => {
 			const addContact = req.body;
 			// console.log(req.body);
@@ -50,50 +50,7 @@ async function run() {
 			// console.log(result);
 		});
 
-        app.get("/contact/:id", async (req, res) => {
-			const id = req.params.id;
-
-			const result = await addContactCollection.findOne({ _id: new ObjectId(id) });
-			res.send(result);
-            // console.log(result);
-		});
-
-        //get specific contact edit
-		app.get("/edit/:id", async (req, res) => {
-			const id = req.params.id;
-			const query = {
-				_id: new ObjectId(id),
-			};
-			const result = await addContactCollection.findOne(query);
-			res.send(result);
-		});
-
-        // edit contact 
-		app.put("/edit/:id", async (req, res) => {
-			const id = req.params.id;
-			console.log(id);
-			const editFirstName = req.body.updateFirstName;
-			const editLastName = req.body.updateLastName;
-			// const {editFirstName,editLastName} = req.body
-			
-			const query = { _id: new ObjectId(id) };
-			const option = { upsert: true };
-			const updatedDoc = {
-				$set: {
-					firstName: editFirstName,
-					lastName: editLastName,
-				},
-			};
-			const result = await addContactCollection.updateOne(query, updatedDoc, option);
-			res.send(result);
-		});
-
-        app.delete("/contact/:id", async (req, res) => {
-			const id = req.params.id;
-			const query = { _id: new ObjectId(id) };
-			const result = await addContactCollection.deleteOne(query);
-			res.send(result);
-		});
+        
     
   } finally {
     
