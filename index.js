@@ -67,6 +67,29 @@ async function run() {
 			const result = await addContactCollection.findOne(query);
 			res.send(result);
 		});
+		// update contact
+		app.put("/edit/:id", async (req, res) => {
+			const id = req.params.id;
+			console.log(id);
+			const editFirstName = req.body.updateFirstName;
+			const editLastName = req.body.updateLastName;
+			// const {editFirstName,editLastName} = req.body
+
+			const query = { _id: new ObjectId(id) };
+			const option = { upsert: true };
+			const updatedDoc = {
+				$set: {
+					firstName: editFirstName,
+					lastName: editLastName,
+				},
+			};
+			const result = await addContactCollection.updateOne(
+				query,
+				updatedDoc,
+				option
+			);
+			res.send(result);
+		});
 	} finally {
 	}
 }
