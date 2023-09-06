@@ -50,6 +50,13 @@ async function run() {
 			// console.log(result);
 		});
 
+        app.get("/contact/:id", async (req, res) => {
+            const id = req.params.id;
+        
+            const result = await addContactCollection.findOne({ _id: new ObjectId(id) });
+            res.send(result);
+            // console.log(result);
+        });
         
     
   } finally {
