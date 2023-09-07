@@ -29,6 +29,14 @@ async function run() {
 		const addContactCollection = client
 			.db("Contact-app")
 			.collection("contacts");
+		const addWorldWideData = client
+			.db("Contact-app")
+			.collection("worldWideData");
+		const addCountrySpecificData = client
+			.db("Contact-app")
+			.collection("country-specific-data");
+
+		const addGraphData = client.db("Contact-app").collection("graphData");
 
 		// add contact
 		app.post("/contacts", async (req, res) => {
@@ -90,14 +98,35 @@ async function run() {
 			);
 			res.send(result);
 		});
-        // delete contact
-        app.delete("/contact/:id", async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: new ObjectId(id) };
-            const result = await addContactCollection.deleteOne(query);
-            res.send(result);
-        });
-        
+		// delete contact
+		app.delete("/contact/:id", async (req, res) => {
+			const id = req.params.id;
+			const query = { _id: new ObjectId(id) };
+			const result = await addContactCollection.deleteOne(query);
+			res.send(result);
+		});
+
+
+
+        /// Chart and maps data:
+
+        	// get all world wide data
+		app.get("/worldWideData", async (req, res) => {
+			const query = {};
+			const cursor = addWorldWideData.find(query);
+			const result = await cursor.toArray();
+			
+			res.send(result);
+			// console.log(result);
+		});
+		app.get("/country-specific-data", async (req, res) => {
+			const query = {};
+			const cursor = addCountrySpecificData.find(query);
+			const result = await cursor.toArray();
+			
+			res.send(result);
+			// console.log(result);
+		});
 	} finally {
 	}
 }
