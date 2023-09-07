@@ -127,6 +127,13 @@ async function run() {
 			res.send(result);
 			// console.log(result);
 		});
+		app.get("/graphData", async (req, res) => {
+			const query = {};
+			const cursor = addGraphData.find(query);
+			const result = await cursor.toArray();	
+			res.send(result);
+			// console.log(result);
+		});
 	} finally {
 	}
 }
